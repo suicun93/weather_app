@@ -1,0 +1,179 @@
+name: weather_app
+description: A new Flutter project to test with NEXT50 about weather
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies: 
+  flutter:
+    sdk: flutter
+  # GetX
+  get: any
+
+  # Grant permission
+  permission_handler: any
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+  # Common
+  intl: any
+
+  # Store token
+  shared_preferences: any
+
+  # Get package information
+  package_info_plus: any
+
+  # Configure environment
+  flutter_flavorizr: ^2.1.4
+
+  # Multi language
+  flutter_localizations:
+    sdk: flutter
+
+  # To go to UID or page Link
+  url_launcher: ^6.1.11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^2.0.0
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+    - assets/images/
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: NotoSans
+      fonts:
+        - asset: fonts/NotoSans-ExtraBold.ttf
+          style: normal
+          weight: 800
+        - asset: fonts/NotoSans-ExtraBoldItalic.ttf
+          style: italic
+          weight: 800
+        - asset: fonts/NotoSans-Bold.ttf
+          style: normal
+          weight: 700
+        - asset: fonts/NotoSans-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: fonts/NotoSans-SemiBold.ttf
+          style: normal
+          weight: 600
+        - asset: fonts/NotoSans-SemiBoldItalic.ttf
+          style: italic
+          weight: 600
+        - asset: fonts/NotoSans-Medium.ttf
+          style: normal
+          weight: 500
+        - asset: fonts/NotoSans-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: fonts/NotoSans-Regular.ttf
+          style: normal
+          weight: 400
+        - asset: fonts/NotoSans-Italic.ttf
+          style: italic
+          weight: 400
+    #          To test
+    - family: Cascadia
+      fonts:
+        - asset: fonts/cascadia.ttf
+          style: normal
+          weight: 400
+
+# Configuration for get_cli
+get_cli:
+  sub_folder: false
+  separator: "."
+
+# Configuration for Flavors
+flavorizr:
+  instructions:
+    - assets:download
+    - assets:extract
+
+    #    Android
+    - android:androidManifest
+    - android:buildGradle
+    - android:dummyAssets
+    - android:icons
+
+    #     iOS
+    - ios:xcconfig
+    - ios:buildTargets
+    - ios:schema
+    - ios:dummyAssets
+    - ios:icons
+    - ios:plist
+
+    #     Google
+    - google:firebase
+
+    #     Cleanup
+    - assets:clean
+
+    #     IDE
+    - ide:config
+  flavors:
+    dev:
+      app:
+        name: "Weather App Dev"
+        icon: "assets/logo_dev.png"
+      android:
+        applicationId: "com.dukehoang.weather.dev"
+      ios:
+        bundleId: "com.dukehoang.weather.dev"
+
+    prod:
+      app:
+        name: "Weather App"
+        icon: "assets/logo_prod.png"
+      android:
+        applicationId: "com.dukehoang.weather"
+      ios:
+        bundleId: "com.dukehoang.weather"
+
