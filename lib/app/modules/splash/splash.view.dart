@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../common/const.dart';
+import '../../common/theme/theme.dart';
 import 'splash.controller.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('SplashView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'SplashView is working',
-          style: TextStyle(fontSize: 20),
+    return Obx(
+      () => Scaffold(
+        body: Container(
+          color: white,
+          child: Center(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: controller.isReady
+                  ? Image.asset(currentEnvironment.logo, width: 300)
+                  : Image.asset(currentEnvironment.logo, width: 300),
+            ),
+          ),
         ),
       ),
     );

@@ -19,15 +19,23 @@ String get endpointApi => currentEnvironment.endPoint;
 
 /// Environment
 enum Environment {
-  prod(baseUrl: 'http://18.138.100.114/'),
-  dev(baseUrl: 'http://18.143.245.97/');
+  prod(
+    baseUrl: 'http://18.138.100.114/',
+    logo: 'assets/logo_prod.png',
+  ),
+  dev(
+    baseUrl: 'http://18.143.245.97/',
+    logo: 'assets/logo_dev.png',
+  );
 
   final String baseUrl;
+  final String logo;
 
   String get endPoint => '${baseUrl}api/';
 
   const Environment({
     required this.baseUrl,
+    required this.logo,
   });
 }
 
