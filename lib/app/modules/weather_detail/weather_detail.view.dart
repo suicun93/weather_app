@@ -12,6 +12,18 @@ import 'weather_detail.controller.dart';
 class WeatherDetailView extends GetView<WeatherDetailController> {
   const WeatherDetailView({Key? key}) : super(key: key);
 
+  Widget get errorWidget => Column(
+        children: [
+          const SizedBox(height: 100),
+          const Icon(Icons.wifi_tethering_error, color: red400, size: 100),
+          const SizedBox(height: 20),
+          Text(
+            LocaleKeys.fetchWeatherFailed.tr,
+            style: body14.copyWith(color: red500, fontWeight: FontWeight.w500),
+          ),
+        ],
+      );
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -30,12 +42,18 @@ class WeatherDetailView extends GetView<WeatherDetailController> {
                 child: ListView.builder(
                   padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                   itemBuilder: (BuildContext context, int index) {
-                    return weatherItem(controller.forecasts[index]);
+                    if (controller.forecasts.isEmpty) {
+                      return errorWidget;
+                    } else {
+                      return weatherItem(controller.forecasts[index]);
+                    }
                   },
-                  itemCount: controller.forecasts.length,
+                  itemCount: controller.forecasts.isEmpty
+                      ? 1
+                      : controller.forecasts.length,
                 ),
               ),
-              controller.ready.value ? Container() : loadingWidget(),
+              controller.ready.value ? Container() : loadingWidget(opacity: 1),
             ],
           ),
         );

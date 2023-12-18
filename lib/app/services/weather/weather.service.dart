@@ -22,7 +22,6 @@ class WeatherService extends GetxService {
   final Map<String, Place?> placeMap = RxMap();
   final WeatherProvider provider = Get.find();
 
-
   @override
   Future<void> onReady() async {
     super.onReady();
@@ -39,6 +38,7 @@ class WeatherService extends GetxService {
     if (_currentPlace != null) {
       places.add(_currentPlace!);
     }
+
     /// Update places
     placeMap.clear();
     placeMap.addEntries(places.map((e) => MapEntry(e.toString(), e)));
@@ -57,6 +57,7 @@ class WeatherService extends GetxService {
               );
 
               // Store data
+              if (weather.body == null) throw Error();
               if (weatherMap[place.toString()] != null) {
                 weatherMap.update(place.toString(), (value) => weather.body);
               } else {
@@ -65,8 +66,11 @@ class WeatherService extends GetxService {
             } catch (e) {
               /// Error
               // Update weather to null
-              if (weatherMap[place] != null) {
-                weatherMap.update(place.toString(), (value) => null);
+              if (weatherMap[place.toString()] != null) {
+                weatherMap.update(place.toString(), (value) {
+                  value!.fetchFailed = true;
+                  return value;
+                });
               } else {
                 weatherMap[place.toString()] = null;
               }

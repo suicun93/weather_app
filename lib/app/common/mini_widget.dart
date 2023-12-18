@@ -39,7 +39,7 @@ Widget get backBlackIcon {
 }
 
 Widget loadingWidget({double opacity = 0.1}) => Container(
-      color: const Color(0xff111111).withOpacity(opacity),
+      color: white.withOpacity(opacity),
       child: Center(
         child: Container(
           width: 246,

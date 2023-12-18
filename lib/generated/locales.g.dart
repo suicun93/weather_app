@@ -44,6 +44,7 @@ class LocaleKeys {
   static const openAppSetting = 'openAppSetting';
   static const youNeedToGrantLocationPermissionToGetTheCurrentLocation =
       'youNeedToGrantLocationPermissionToGetTheCurrentLocation';
+  static const noInternetConnection = 'noInternetConnection';
   static const requestPermission = 'requestPermission';
   static const currentLocation = 'currentLocation';
   static const forecastDetail = 'forecastDetail';
@@ -78,12 +79,14 @@ class Locales {
     'cloud': 'Cloud',
     'fetchWeatherFailed': 'Fetch Weather failed',
     'youNeedToOpenAppSettingToEnableLocationService':
-        'You need to open app setting to enable location service',
+        'You need to open app setting to enable location service.',
     'youNeedToOpenAppSettingToGrantTheLocationPermission':
-        'You need to open app setting to grant the location permission',
+        'You need to open app setting to grant the location permission.',
     'openAppSetting': 'Open App Setting',
     'youNeedToGrantLocationPermissionToGetTheCurrentLocation':
-        'You need to grant location permission to get the current location',
+        'You need to grant location permission to get the current location.',
+    'noInternetConnection':
+        'No internet connection. Please check your network.',
     'requestPermission': 'Request permission',
     'currentLocation': ' (current)',
     'forecastDetail': 'Forecast Detail',
@@ -114,14 +117,16 @@ class Locales {
     'windSpd': 'Gió tốc độ',
     'windDeg': 'Độ gió',
     'cloud': 'Mây',
-    'fetchWeatherFailed': 'Tìm nạp thời tiết không thành công',
+    'fetchWeatherFailed': 'Đồng bộ dữ liệu thời tiết không thành công',
     'youNeedToOpenAppSettingToEnableLocationService':
-        'Bạn cần mở cài đặt ứng dụng để bật dịch vụ định vị',
+        'Bạn cần mở cài đặt ứng dụng để bật dịch vụ định vị.',
     'youNeedToOpenAppSettingToGrantTheLocationPermission':
-        'Bạn cần mở cài đặt ứng dụng để cấp quyền truy cập thông tin vị trí',
+        'Bạn cần mở cài đặt ứng dụng để cấp quyền truy cập thông tin vị trí.',
     'openAppSetting': 'Mở cài đặt ứng dụng',
     'youNeedToGrantLocationPermissionToGetTheCurrentLocation':
-        'Bạn cần cấp quyền truy cập vị trí để có được vị trí hiện tại',
+        'Bạn cần cấp quyền truy cập vị trí để có được vị trí hiện tại.',
+    'noInternetConnection':
+        'Không có kết nối Internet. Vui lòng kiểm tra mạng của bạn.',
     'requestPermission': 'Xin quyền truy cập',
     'currentLocation': ' (hiện tại)',
     'forecastDetail': 'Chi tiết dự báo',

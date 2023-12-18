@@ -31,6 +31,10 @@ class HomeController extends MyGetController<HomeProvider> {
   final place = Rxn<Place>();
   final autoCompleteIsOpening = false.obs;
 
+  Future<void> Function() get refreshIndicator => locationError.value != null
+      ? () async => fetchCurrentLocation()
+      : () async => fetchWeather();
+
   @override
   void onReady() async {
     super.onReady();
@@ -40,7 +44,6 @@ class HomeController extends MyGetController<HomeProvider> {
       place,
       (_) async {
         if (_ != null) {
-          // placeController.text = _.fullName;
           await Preference.addPlace(_);
           fetchWeather();
         }
@@ -78,12 +81,8 @@ class HomeController extends MyGetController<HomeProvider> {
           case LocationPermission.always:
 
             /// Granted
-            try {
-              await getCurrentPosition();
-            } catch (e) {
-              locationError.value = LocationState.locationServicesAreDisabled;
-            }
-            break;
+            fetchCurrentLocation();
+            return;
         }
       } else {
         /// Denied Forever
@@ -93,8 +92,8 @@ class HomeController extends MyGetController<HomeProvider> {
       }
     } catch (e) {
       /// Unknown error
-      showSnackBar(content: e.toString());
-      locationError.value = LocationState.locationServicesAreDisabled;
+      showSnackBar(content: LocaleKeys.somethingWentWrong.tr);
+      locationError.value = LocationState.noInternetConnection;
     } finally {
       await weatherService.fetchWeather();
       ready.value = true;
@@ -105,21 +104,15 @@ class HomeController extends MyGetController<HomeProvider> {
     final position = await GeoService.determinePosition();
     final lat = position.latitude;
     final lon = position.longitude;
-    try {
-      locationError.value = null;
-      final place = await placeProvider.getPlacesFromLatLon(
-        lat: lat.toString(),
-        lon: lon.toString(),
-      );
-      if (place.body?.isNotEmpty ?? true) {
-        weatherService.setCurrentPlace(place.body!.first);
-      } else {
-        locationError.value = LocationState.locationServicesAreDisabled;
-        showSnackBar(content: LocaleKeys.somethingWentWrong.tr);
-      }
-    } catch (e) {
-      locationError.value = LocationState.locationServicesAreDisabled;
-      showSnackBar(content: e.toString());
+    locationError.value = null;
+    final place = await placeProvider.getPlacesFromLatLon(
+      lat: lat.toString(),
+      lon: lon.toString(),
+    );
+    if (place.body?.isNotEmpty ?? true) {
+      weatherService.setCurrentPlace(place.body!.first);
+    } else {
+      throw LocationState.noInternetConnection;
     }
   }
 
@@ -145,7 +138,7 @@ class HomeController extends MyGetController<HomeProvider> {
       places.value = [];
       places.addAll(responsePlaces);
     } catch (e) {
-      showSnackBar(content: e.toString());
+      showSnackBar(content: LocaleKeys.somethingWentWrong.tr);
     }
   }
 

@@ -39,6 +39,7 @@ class GeoService {
 }
 
 enum LocationState {
+  noInternetConnection,
   locationPermissionsAreDenied,
   locationServicesAreDisabled,
   locationPermissionsArePermanentlyDenied,

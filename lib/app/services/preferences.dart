@@ -25,7 +25,7 @@ class Preference {
     try {
       final pref = await _instance();
       final str = pref.getString('getPlaces') ?? '';
-      final json = jsonDecode(str);
+      final json = str.isEmpty ? null : jsonDecode(str);
       if (str.isNotEmpty && json is Iterable) {
         return json.map((e) => Place.fromJson(e));
       } else {
@@ -41,7 +41,7 @@ class Preference {
     final pref = await _instance();
     final str = pref.getString('getPlaces') ?? '';
     var places = <Place>[];
-    final json = jsonDecode(str);
+    final json = str.isEmpty ? null : jsonDecode(str);
     if (str.isNotEmpty && json is Iterable) {
       places.addAll(json.map((e) => Place.fromJson(e)));
     }
@@ -59,7 +59,7 @@ class Preference {
     final pref = await _instance();
     final str = pref.getString('getPlaces') ?? '';
     var places = <Place>[];
-    final json = jsonDecode(str);
+    final json = str.isEmpty ? null : jsonDecode(str);
     if (str.isNotEmpty && json is Iterable) {
       places.addAll(json.map((e) => Place.fromJson(e)));
     }

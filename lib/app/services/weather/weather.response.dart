@@ -13,6 +13,7 @@ class Weather {
   int? id;
   String? name;
   int? cod;
+  bool fetchFailed = false;
 
   Weather({
     this.coord,

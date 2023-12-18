@@ -27,74 +27,74 @@ class HomeView extends GetView<HomeController> {
         body: Stack(
           children: [
             RefreshIndicator(
-              onRefresh: () async {
-                controller.fetchWeather();
-              },
+              onRefresh: controller.refreshIndicator,
               child: ListView(
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
                 children: [
                   /// Search
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 45,
-                      child: TypeAheadField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: controller.placeController,
-                          decoration: InputDecoration(
-                            hintText: LocaleKeys.search.tr,
-                            suffix: InkWell(
-                              overlayColor: MaterialStateColor.resolveWith(
-                                (_) => transparent,
+                  if (controller.locationError.value !=
+                      LocationState.noInternetConnection)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 45,
+                        child: TypeAheadField(
+                          textFieldConfiguration: TextFieldConfiguration(
+                            controller: controller.placeController,
+                            decoration: InputDecoration(
+                              hintText: LocaleKeys.search.tr,
+                              suffix: InkWell(
+                                overlayColor: MaterialStateColor.resolveWith(
+                                  (_) => transparent,
+                                ),
+                                child: const Icon(
+                                  Icons.close_rounded,
+                                  color: greyscale400,
+                                  size: 20,
+                                ),
+                                onTap: () {
+                                  controller.placeController.clear();
+                                  controller.place.value = null;
+                                },
                               ),
-                              child: const Icon(
-                                Icons.close_rounded,
-                                color: greyscale400,
-                                size: 20,
-                              ),
-                              onTap: () {
-                                controller.placeController.clear();
-                                controller.place.value = null;
-                              },
                             ),
                           ),
+                          onSuggestionsBoxToggle: (_) {
+                            controller.autoCompleteIsOpening.value = _;
+                            // Recover last choice
+                            if (!_) {
+                              controller.placeController.text =
+                                  controller.place.value?.fullName ?? '';
+                            }
+                          },
+                          onSuggestionSelected: (_) {
+                            controller.place.value = _;
+                          },
+                          suggestionsCallback: (_) async {
+                            if (_.isEmpty) controller.place.value = null;
+                            await controller.getPlaces(key: _);
+                            return controller.places;
+                          },
+                          itemBuilder: (c, Place place) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                place.fullName,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          },
+                          debounceDuration: 500.milliseconds,
+                          noItemsFoundBuilder: (_) {
+                            return Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(LocaleKeys.noPlacesFound.tr),
+                            );
+                          },
                         ),
-                        onSuggestionsBoxToggle: (_) {
-                          controller.autoCompleteIsOpening.value = _;
-                          // Recover last choice
-                          if (!_) {
-                            controller.placeController.text =
-                                controller.place.value?.fullName ?? '';
-                          }
-                        },
-                        onSuggestionSelected: (_) {
-                          controller.place.value = _;
-                        },
-                        suggestionsCallback: (_) async {
-                          if (_.isEmpty) controller.place.value = null;
-                          await controller.getPlaces(key: _);
-                          return controller.places;
-                        },
-                        itemBuilder: (c, Place place) {
-                          return Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Text(
-                              place.fullName,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          );
-                        },
-                        debounceDuration: 500.milliseconds,
-                        noItemsFoundBuilder: (_) {
-                          return Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Text(LocaleKeys.noPlacesFound.tr),
-                          );
-                        },
                       ),
                     ),
-                  ),
 
                   /// Current location error
                   if (controller.locationError.value != null)
@@ -146,10 +146,10 @@ class HomeView extends GetView<HomeController> {
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: yellow100,
+        color: weather.fetchFailed ? orange000 : yellow100,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: yellow500,
+          color: weather.fetchFailed ? orange300 : yellow500,
           width: 2,
         ),
       ),
@@ -261,8 +261,15 @@ class HomeView extends GetView<HomeController> {
             '${LocaleKeys.cloud.tr}: ${(weather.clouds?.all ?? 0)}',
             style: body14.copyWith(color: black),
           ),
-          const SizedBox(height: 4),
-          dividerThin,
+          if (weather.fetchFailed) ...[
+            const SizedBox(height: 4),
+            dividerThin,
+            const SizedBox(height: 4),
+            Text(
+              LocaleKeys.fetchWeatherFailed.tr,
+              style: body14.copyWith(color: error),
+            ),
+          ],
         ],
       ),
     );
@@ -328,6 +335,7 @@ class HomeView extends GetView<HomeController> {
     switch (error) {
       case LocationState.locationServicesAreDisabled:
       case LocationState.locationPermissionsArePermanentlyDenied:
+      case LocationState.noInternetConnection:
         return openAppSetting;
       case LocationState.locationPermissionsAreDenied:
         return reRequestLocationPermission;
@@ -335,6 +343,12 @@ class HomeView extends GetView<HomeController> {
   }
 
   Container get openAppSetting {
+    final error = controller.locationError.value ==
+            LocationState.locationServicesAreDisabled
+        ? LocaleKeys.youNeedToOpenAppSettingToEnableLocationService.tr
+        : controller.locationError.value == LocationState.noInternetConnection
+            ? LocaleKeys.noInternetConnection.tr
+            : LocaleKeys.youNeedToOpenAppSettingToGrantTheLocationPermission.tr;
     return Container(
       margin: const EdgeInsets.all(8),
       padding: const EdgeInsets.all(12),
@@ -350,11 +364,7 @@ class HomeView extends GetView<HomeController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            controller.locationError.value ==
-                    LocationState.locationServicesAreDisabled
-                ? LocaleKeys.youNeedToOpenAppSettingToEnableLocationService.tr
-                : LocaleKeys
-                    .youNeedToOpenAppSettingToGrantTheLocationPermission.tr,
+            error,
             style: body14.copyWith(color: red600, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 6),

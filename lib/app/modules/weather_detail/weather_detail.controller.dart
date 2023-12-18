@@ -28,7 +28,6 @@ class WeatherDetailController extends MyGetController<WeatherDetailProvider> {
       Get.back();
       return;
     }
-    print('okokok');
     getForecast();
   }
 
