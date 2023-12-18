@@ -29,5 +29,6 @@
   "openAppSetting": "Open App Setting",
   "youNeedToGrantLocationPermissionToGetTheCurrentLocation": "You need to grant location permission to get the current location",
   "requestPermission": "Request permission",
-  "currentLocation": " (current)"
+  "currentLocation": " (current)",
+  "forecastDetail": "Forecast Detail"
 }

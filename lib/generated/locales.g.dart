@@ -46,6 +46,7 @@ class LocaleKeys {
       'youNeedToGrantLocationPermissionToGetTheCurrentLocation';
   static const requestPermission = 'requestPermission';
   static const currentLocation = 'currentLocation';
+  static const forecastDetail = 'forecastDetail';
 }
 
 class Locales {
@@ -85,6 +86,7 @@ class Locales {
         'You need to grant location permission to get the current location',
     'requestPermission': 'Request permission',
     'currentLocation': ' (current)',
+    'forecastDetail': 'Forecast Detail',
   };
   static const vi_VN = {
     'hello': 'Xin chào',
@@ -122,5 +124,6 @@ class Locales {
         'Bạn cần cấp quyền truy cập vị trí để có được vị trí hiện tại',
     'requestPermission': 'Xin quyền truy cập',
     'currentLocation': ' (hiện tại)',
+    'forecastDetail': 'Chi tiết dự báo',
   };
 }

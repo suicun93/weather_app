@@ -29,5 +29,6 @@
   "openAppSetting": "Mở cài đặt ứng dụng",
   "youNeedToGrantLocationPermissionToGetTheCurrentLocation": "Bạn cần cấp quyền truy cập vị trí để có được vị trí hiện tại",
   "requestPermission": "Xin quyền truy cập",
-  "currentLocation": " (hiện tại)"
+  "currentLocation": " (hiện tại)",
+  "forecastDetail": "Chi tiết dự báo"
 }
