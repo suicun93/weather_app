@@ -10,6 +10,7 @@ import '../../routes/app_pages.dart';
 import '../../services/geo/geolocator.dart';
 import '../../services/places/place.response.dart';
 import '../../services/weather/weather.response.dart';
+import '../weather_detail/weather_detail.controller.dart';
 import 'home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -78,7 +79,7 @@ class HomeView extends GetView<HomeController> {
                           return Padding(
                             padding: const EdgeInsets.all(16),
                             child: Text(
-                              place.fullName ?? '',
+                              place.fullName,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -122,7 +123,12 @@ class HomeView extends GetView<HomeController> {
     if (weather != null) {
       return InkWell(
         onTap: () {
-          Get.toNamed(Routes.weatherDetail);
+          Get.toNamed(
+            Routes.weatherDetail,
+            parameters: {
+              WeatherDetailController.placeKeyConst: placeKey,
+            },
+          );
         },
         child: fetchWeatherSuccessInPlace(isCurrent, place, weather),
       );
