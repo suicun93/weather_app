@@ -10,6 +10,7 @@ I am using Flutter version: sdk: '>=2.19.6 <3.0.0'
 
 I already created 2 environment for this project, they are **dev** and **prod**
 They have 2 different icons, 2 different names, 2 different configurations (in case we need multiple env for dev,prod,staging,test...)
+
 <img width="325" alt="image" src="https://github.com/suicun93/weather_app/assets/20919774/55309ccc-a15c-4d76-bceb-ec030cc91c41">
 
  - To run dev env:
