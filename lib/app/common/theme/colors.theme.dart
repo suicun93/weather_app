@@ -80,7 +80,7 @@ const red000 = Color(0xFFFFECE8);
 /// Transparent
 const transparent = Colors.transparent;
 
-const primary = yellow500;
+const primary = white;
 const error = red400;
 const lightError = red200;
 const grey = greyscale500;

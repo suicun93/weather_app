@@ -46,11 +46,11 @@ final theme = ThemeData(
 const mainSystemUiOverlay = SystemUiOverlayStyle(
   /// The color of the system bottom navigation bar.
   /// Only honored in Android versions O and greater.
-  systemNavigationBarColor: primary,
+  systemNavigationBarColor: white,
 
   /// The color of the divider between the system's bottom navigation bar and the app's content.
   /// Only honored in Android versions P and greater.
-  systemNavigationBarDividerColor: primary,
+  systemNavigationBarDividerColor: white,
 
   /// The brightness of the system navigation bar icons.
   /// Only honored in Android versions O and greater.
@@ -60,7 +60,7 @@ const mainSystemUiOverlay = SystemUiOverlayStyle(
 
   /// The color of top status bar.
   /// Only honored in Android version M and greater.
-  statusBarColor: primary,
+  statusBarColor: white,
 
   /// The brightness of top status bar.
   /// Only honored in iOS.
