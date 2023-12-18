@@ -20,22 +20,26 @@ String get endpointApi => currentEnvironment.endPoint;
 /// Environment
 enum Environment {
   prod(
-    baseUrl: 'http://18.138.100.114/',
+    baseUrl: 'http://api.openweathermap.org',
     logo: 'assets/logo_prod.png',
+    weatherApiKey: weatherKey,
   ),
   dev(
-    baseUrl: 'http://18.143.245.97/',
+    baseUrl: 'http://api.openweathermap.org',
     logo: 'assets/logo_dev.png',
+    weatherApiKey: weatherKey,
   );
 
   final String baseUrl;
   final String logo;
+  final String weatherApiKey;
 
-  String get endPoint => '${baseUrl}api/';
+  String get endPoint => baseUrl;
 
   const Environment({
     required this.baseUrl,
     required this.logo,
+    required this.weatherApiKey,
   });
 }
 
@@ -87,12 +91,12 @@ final minTimeDOB = DateTime(1930, 1, 1);
 const pageSize = 15;
 
 /// Map APi Key
-const mapKey = 'AIzaSyBnY7r9LCxK_txsxZtgkmNGp1BhAn8J0MI';
+const weatherKey = 'bfa3eeb517cd0a09da23785037e800ca';
 
-String mapLinkHybrid(lat, lon) {
-  return 'https://maps.googleapis.com/maps/api/staticmap?zoom=19&size=1024x768&sensor=false&maptype=hybrid&markers=color:red|label:P|$lat,$lon&key=$mapKey';
-}
-
-String mapLinkNoHybrid(lat, lon) {
-  return 'https://maps.googleapis.com/maps/api/staticmap?zoom=19&size=1024x768&sensor=false&markers=color:red|label:P|$lat,$lon&key=$mapKey';
-}
+// String mapLinkHybrid(lat, lon) {
+//   return 'https://maps.googleapis.com/maps/api/staticmap?zoom=19&size=1024x768&sensor=false&maptype=hybrid&markers=color:red|label:P|$lat,$lon&key=${currentEnvironment.mapApiKey}';
+// }
+//
+// String mapLinkNoHybrid(lat, lon) {
+//   return 'https://maps.googleapis.com/maps/api/staticmap?zoom=19&size=1024x768&sensor=false&markers=color:red|label:P|$lat,$lon&key=${currentEnvironment.mapApiKey}';
+// }

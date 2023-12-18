@@ -53,6 +53,12 @@ dependencies:
   # To go to UID or page Link
   url_launcher: ^6.1.11
 
+  # Check location of user to get the current location
+  geolocator: any
+
+  # Cancel a Future
+  flutter_typeahead: 4.8.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

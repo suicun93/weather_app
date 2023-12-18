@@ -38,7 +38,7 @@ Widget get backBlackIcon {
   );
 }
 
-Container loadingWidget({double opacity = 0.1}) => Container(
+Widget loadingWidget({double opacity = 0.1}) => Container(
       color: const Color(0xff111111).withOpacity(opacity),
       child: Center(
         child: Container(
@@ -60,7 +60,7 @@ Container loadingWidget({double opacity = 0.1}) => Container(
       ),
     );
 
-Widget get dividerThin => const Divider(height: 1, color: grey);
+Widget get dividerThin => const Divider(height: 1, color: black);
 
 Widget get dividerNeutral => const Divider(thickness: 12, color: greyscale600);
 

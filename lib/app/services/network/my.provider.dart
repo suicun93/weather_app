@@ -36,7 +36,7 @@ class MyProvider extends MyConnect {
           request.headers.addAll(
             {
               'authorization': 'Bearer $accessToken',
-              'language': currentLanguage,
+              'lang': currentLanguage,
             },
           );
         }

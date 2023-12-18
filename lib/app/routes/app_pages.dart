@@ -26,7 +26,7 @@ class AppPages {
       binding: SplashBinding(),
     ),
     GetPage(
-      name: _Paths.WEATHER_DETAIL,
+      name: _Paths.weatherDetail,
       page: () => const WeatherDetailView(),
       binding: WeatherDetailBinding(),
     ),
