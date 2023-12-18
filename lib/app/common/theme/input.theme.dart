@@ -70,7 +70,7 @@ final outlineButtonTheme = OutlinedButtonThemeData(
     side: const BorderSide(color: yellow400),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
     textStyle: body15Bold.copyWith(color: primary),
-    foregroundColor: primary,
+    foregroundColor: black,
   ),
 );
 

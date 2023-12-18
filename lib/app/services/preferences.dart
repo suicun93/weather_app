@@ -1,7 +1,8 @@
-import 'package:get/get.dart';
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../common/const.dart';
+import 'places/place.response.dart';
 
 class Preference {
   static Future<SharedPreferences> _instance() async {
@@ -19,36 +20,57 @@ class Preference {
     pref.setString('language', language);
   }
 
-  /// Get Notification or not?
-  static Future<bool> isNoti() async {
-    final pref = await _instance();
-    return pref.getBool('noti') ?? false;
+  /// Get Cities
+  static Future<Iterable<Place>> getPlaces() async {
+    try {
+      final pref = await _instance();
+      final str = pref.getString('getPlaces') ?? '';
+      final json = jsonDecode(str);
+      if (str.isNotEmpty && json is Iterable) {
+        return json.map((e) => Place.fromJson(e));
+      } else {
+        return const Iterable.empty();
+      }
+    } catch (e) {
+      return const Iterable.empty();
+    }
   }
 
-  static Future setNoti(bool logged) async {
+  static Future addPlace(Place place) async {
+    // recover old list
     final pref = await _instance();
-    pref.setBool('noti', logged);
+    final str = pref.getString('getPlaces') ?? '';
+    var places = <Place>[];
+    final json = jsonDecode(str);
+    if (str.isNotEmpty && json is Iterable) {
+      places.addAll(json.map((e) => Place.fromJson(e)));
+    }
+    final duplicated = places.any((element) {
+      return element.toString() == place.toString();
+    });
+    if (duplicated) return;
+    places.add(place);
+    // save
+    pref.setString('getPlaces', jsonEncode(places));
   }
 
-  /// Get shouldAskNotification or not?
-  static Future<DateTime> getLastTimeAskNotification() async {
+  static Future deletePlace(Place place) async {
+    // recover old list
     final pref = await _instance();
-    final shouldAsk = pref.getString('getLastTimeAskNotification');
-    return (shouldAsk?.isEmpty ?? true)
-        ? DateTime.now().subtract(8.days)
-        : dateFormatter.parse(shouldAsk!);
+    final str = pref.getString('getPlaces') ?? '';
+    var places = <Place>[];
+    final json = jsonDecode(str);
+    if (str.isNotEmpty && json is Iterable) {
+      places.addAll(json.map((e) => Place.fromJson(e)));
+    }
+    places.removeWhere((_) => place.toString() == _.toString());
+    // save
+    pref.setString('getPlaces', jsonEncode(places));
   }
 
-  static Future setLastTimeAskNotification(
-    DateTime? shouldAskNotification,
-  ) async {
+  static Future removeAllPlace() async {
     final pref = await _instance();
-    pref.setString(
-      'getLastTimeAskNotification',
-      shouldAskNotification == null
-          ? ''
-          : dateFormatter.format(shouldAskNotification),
-    );
+    pref.setString('getPlaces', '');
   }
 
   /// Get Access Token
@@ -92,8 +114,7 @@ class Preference {
     Future.wait([
       setAccessToken(''),
       setRefreshToken(''),
-      setNoti(false),
-      setLastTimeAskNotification(null),
+      removeAllPlace(),
     ]);
   }
 

@@ -5,12 +5,12 @@ abstract class Routes {
   Routes._();
   static const home = _Paths.home;
   static const splash = _Paths.splash;
-  static const WEATHER_DETAIL = _Paths.WEATHER_DETAIL;
+  static const weatherDetail = _Paths.weatherDetail;
 }
 
 abstract class _Paths {
   _Paths._();
   static const home = '/home';
   static const splash = '/splash';
-  static const WEATHER_DETAIL = '/weather-detail';
+  static const weatherDetail = '/weather-detail';
 }
